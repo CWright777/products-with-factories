@@ -11,6 +11,15 @@
       var factory = {}
       factory.addProduct = function(product){
         products.push(product)
+        console.log(products)
+      }
+      factory.removeProduct = function(product){
+        for(var x in products){
+          if(products[x] == product){
+            products.splice(x,1);
+            return;
+          }
+        }
       }
       return factory;
     })
@@ -24,6 +33,7 @@
       }
       $scope.removeProduct = function(product){
         $scope.products.splice($scope.products.indexOf(product), 1);
+        productFactory.removeProduct(product)
       }
     });
     
