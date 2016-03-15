@@ -1,0 +1,57 @@
+<html ng-app='myApp'>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title></title>
+  <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js'/></script>
+  <script type="text/javascript" charset="utf-8">
+    var myAppModule = angular.module('myApp',[])
+
+    myAppModule.factory('productFactory', function(){
+      var products = []
+      var factory = {}
+      factory.addProduct = function(product){
+        products.push(product)
+      }
+      return factory;
+    })
+
+    myAppModule.controller('productsController', function($scope, productFactory){
+      $scope.products = [];
+      $scope.addProduct = function(){
+        $scope.products.push($scope.newProduct)
+        productFactory.addProduct($scope.newProduct)
+        $scope.newProduct = {}
+      }
+      $scope.removeProduct = function(product){
+        $scope.products.splice($scope.products.indexOf(product), 1);
+      }
+    });
+    
+  </script>
+</head>
+<div ng-controller='productsController'>
+    <h1>Products Controller</h1>
+    <form>
+      <p>Product Name:
+      <input type="text" ng-model="newProduct.name">
+      </p>
+      <p>Product Price:
+      <input type="text" ng-model="newProduct.price">
+      </p>
+      <input type="submit" ng-click='addProduct()' value="Add Product">
+    </form>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+      <tr ng-repeat="product in products">
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td ng-click='removeProduct(product)'>Delete</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
